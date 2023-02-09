@@ -368,6 +368,22 @@ public class Painting_GameManager : MonoBehaviour
     {
         string name = "Captura_Graffiti_Pipes_" + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss") + ".png";
         Texture2D image = finishingPanel.transform.parent.GetComponent<Painting_Interface_Manager>().copyTextureToImage().texture;      
-        NativeGallery.SaveImageToGallery(image, "Mis Grafittis", name);
+        NativeGallery.SaveImageToGallery(image, "Mis Grafittis", name, (success, path) => _ShowAndroidToastMessage("Media save result: The Graffiti " + (success ? "was successfully saved in " + path : "could NOT be saved.")));
+    }
+
+    private void _ShowAndroidToastMessage(string message)
+    {
+        AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+        if (unityActivity != null)
+        {
+            AndroidJavaClass toastClass = new AndroidJavaClass("android.widget.Toast");
+            unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
+            {
+                AndroidJavaObject toastObject = toastClass.CallStatic<AndroidJavaObject>("makeText", unityActivity, message, 0);
+                toastObject.Call("show");
+            }));
+        }
     }
 }

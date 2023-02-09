@@ -194,7 +194,7 @@ public class PipesGameManager : MonoBehaviour
                 finishingPanel.transform.Find("Panel/Information/AdditionalText").gameObject.GetComponent<Text>().text = "Virus eliminados: " + UI_Manager.destroyedPoints;
 
                 //Editando texto de puntos
-                finishingPanel.transform.Find("Panel/Information/TimeText").gameObject.GetComponent<Text>().text = "Errores cometidos: un montón";
+                finishingPanel.transform.Find("Panel/Information/TimeText").gameObject.GetComponent<Text>().text = "Errores cometidos: " + UI_Manager.playerErrors;
 
 
                 //Editando las funciones de los botones
@@ -211,7 +211,7 @@ public class PipesGameManager : MonoBehaviour
                 DataManager.instancia.Guardar();
 
                 string resultadoPrueba = "";
-                SessionManager.instance.SumarPuntosAlTotal(UI_Manager.destroyedPoints * 10);
+                SessionManager.instance.SumarPuntosAlTotal((UI_Manager.destroyedPoints * 10) - UI_Manager.playerErrors);
                 if (UI_Manager.destroyedPoints >= 10)
                 {
                     resultadoPrueba = "¡Los estás haciendo excelente!";
