@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using UnityEngine.Localization.Settings;
 
 public class UI_Manager_PipeGame : MonoBehaviour
 {
@@ -58,7 +59,7 @@ public class UI_Manager_PipeGame : MonoBehaviour
         /*actualDirtyPoints = totalDirtyPoints;
         percentageDirtyErased = actualDirtyPoints / totalDirtyPoints * 100f;*/
 
-        dirtyPointsText.text = "Virus eliminados: " + destroyedPoints;
+        dirtyPointsText.text = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "dataText") + " " + destroyedPoints;
     }
 
     public void restDirtyPoints(int pointsToRest)
@@ -67,7 +68,7 @@ public class UI_Manager_PipeGame : MonoBehaviour
         actualDirtyPoints -= pointsToRest;
         //percentageDirtyErased = actualDirtyPoints / totalDirtyPoints * 100f;
 
-        dirtyPointsText.text = "Virus eliminados: " + destroyedPoints;
+        dirtyPointsText.text = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "dataText") + " " + destroyedPoints;
     }
 
     private void refreshingHeatSliderState()
@@ -78,6 +79,6 @@ public class UI_Manager_PipeGame : MonoBehaviour
 
     public void ActualizarTiempo(float actualTime)
     {
-        timeText.text = "Tiempo: " + Mathf.Floor(actualTime).ToString("00");
+        timeText.text = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "time") + " " + Mathf.Floor(actualTime).ToString("00");
     }
 }

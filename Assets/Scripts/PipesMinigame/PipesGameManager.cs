@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -43,7 +44,7 @@ public class PipesGameManager : MonoBehaviour
             Debug.Log("No se encuentra en sesion");
 
             //El jugador no se encuentra en una sesion
-            totalTimeToPlay = 60;
+            totalTimeToPlay = 10;
             numberOfPoints = 14;
         }
         else
@@ -62,15 +63,15 @@ public class PipesGameManager : MonoBehaviour
             switch (gameDifficulty)
             {
                 case "Easy":
-                    totalTimeToPlay = 60;
+                    totalTimeToPlay = 120;
                     numberOfPoints = 20;
                     break;
                 case "Medium":
-                    totalTimeToPlay = 60;
+                    totalTimeToPlay = 120;
                     numberOfPoints = 17;
                     break;
                 case "Hard":
-                    totalTimeToPlay = 60;
+                    totalTimeToPlay = 120;
                     numberOfPoints = 12;
                     break;
             }
@@ -184,22 +185,22 @@ public class PipesGameManager : MonoBehaviour
 
             if (SessionManager.instance == null || (SessionManager.instance != null && SessionManager.instance.playingSession == false))
             {
-                finishingPanel.transform.Find("Panel/Title").gameObject.GetComponent<Text>().text = "¡Práctica terminada!";
+                finishingPanel.transform.Find("Panel/Title").gameObject.GetComponent<Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "endText");
 
                 //Editando texto de resultado
                 finishingPanel.transform.Find("Panel/Information/PointsText").gameObject.GetComponent<Text>().text = "";
                 finishingPanel.transform.Find("Panel/Information/PointsText/ResolutionText").gameObject.GetComponent<Text>().text = "";
 
                 //Editando texto de resultado adicional
-                finishingPanel.transform.Find("Panel/Information/AdditionalText").gameObject.GetComponent<Text>().text = "Virus eliminados: " + UI_Manager.destroyedPoints;
+                finishingPanel.transform.Find("Panel/Information/AdditionalText").gameObject.GetComponent<Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "dataText") + " " + UI_Manager.destroyedPoints;
 
                 //Editando texto de puntos
-                finishingPanel.transform.Find("Panel/Information/TimeText").gameObject.GetComponent<Text>().text = "Errores cometidos: " + UI_Manager.playerErrors;
+                //finishingPanel.transform.Find("Panel/Information/TimeText").gameObject.GetComponent<Text>().text = "Errores cometidos: " + UI_Manager.playerErrors;
 
 
                 //Editando las funciones de los botones
                 finishingPanel.transform.Find("Panel/Buttons/NextButton").gameObject.GetComponent<Button>().onClick.AddListener(() => gameObject.GetComponent<UI_InGame_Manager>().exitButtonPressed());
-                finishingPanel.transform.Find("Panel/Buttons/NextButton/Information2").GetComponent<Text>().text = "Menu";
+                finishingPanel.transform.Find("Panel/Buttons/NextButton/Information2").GetComponent<Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "menu") + " ";
             }
             else
             {
@@ -214,19 +215,19 @@ public class PipesGameManager : MonoBehaviour
                 SessionManager.instance.SumarPuntosAlTotal((UI_Manager.destroyedPoints * 10) - UI_Manager.playerErrors);
                 if (UI_Manager.destroyedPoints >= 10)
                 {
-                    resultadoPrueba = "¡Los estás haciendo excelente!";
+                    resultadoPrueba = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "highResultText");
                 }
                 else if (UI_Manager.destroyedPoints >= 7)
                 {
-                    resultadoPrueba = "¡Vas mejorando!";
+                    resultadoPrueba = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "midResultText");
                 }
                 else if (UI_Manager.destroyedPoints >= 1)
                 {
-                    resultadoPrueba = "¡Ánimo! ¡Sigue así!";
+                    resultadoPrueba = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "lowResultText");
                 }
                 else
                 {
-                    resultadoPrueba = "¡Vuelve a intentarlo! ¡Tu puedes!";
+                    resultadoPrueba = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "failResultText");
                 }
 
                 //Se prepara la Interfaz
@@ -234,23 +235,23 @@ public class PipesGameManager : MonoBehaviour
 
                 //Editando titulo de la pantalla final
                 int completed = SessionManager.instance.totalGamesInSession - SessionManager.instance.sucesionDeJuegos.Count;
-                finishingPanel.transform.Find("Panel/Title").gameObject.GetComponent<Text>().text = "¡Terminado! " + completed + " / " + SessionManager.instance.totalGamesInSession;
+                finishingPanel.transform.Find("Panel/Title").gameObject.GetComponent<Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "endText") + " " + completed + " / " + SessionManager.instance.totalGamesInSession;
 
                 //Editando texto de resultado
                 //finishingPanel.transform.Find("Panel/Information/PointsText").gameObject.GetComponent<Text>().text = "Resultado: ";
                 finishingPanel.transform.Find("Panel/Information/PointsText/ResolutionText").gameObject.GetComponent<Text>().text = resultadoPrueba;
 
                 //Editando texto de resultado adicional
-                finishingPanel.transform.Find("Panel/Information/AdditionalText").gameObject.GetComponent<Text>().text = "Virus eliminados: " + UI_Manager.destroyedPoints;
+                finishingPanel.transform.Find("Panel/Information/AdditionalText").gameObject.GetComponent<Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "dataText") + " " + UI_Manager.destroyedPoints;
 
                 //Editando texto de puntos
                 //finishingPanel.transform.Find("Panel/Information/TimeText").gameObject.GetComponent<Text>().text = "Errores cometidos: " + UI_Manager.playerErrors;
-                finishingPanel.transform.Find("Panel/Information/TimeText").gameObject.GetComponent<Text>().text = "Puntos totales: "
-                    + SessionManager.instance.puntosTotales; // + "/" + SessionManager.instance.puntosAConseguir;
+                finishingPanel.transform.Find("Panel/Information/TimeText").gameObject.GetComponent<Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "points") + " " +
+                + SessionManager.instance.puntosTotales; // + "/" + SessionManager.instance.puntosAConseguir;
 
                 //Editando las funciones de los botones y su texto correspondiente
                 finishingPanel.transform.Find("Panel/Buttons/NextButton").gameObject.GetComponent<Button>().onClick.AddListener(() => SessionManager.instance.chargeNextScene());
-                finishingPanel.transform.Find("Panel/Buttons/NextButton/Information2").GetComponent<Text>().text = "Siguiente";
+                finishingPanel.transform.Find("Panel/Buttons/NextButton/Information2").GetComponent<Text>().text = LocalizationSettings.StringDatabase.GetLocalizedString("UI Game Text", "next");
             }
         }
     }
